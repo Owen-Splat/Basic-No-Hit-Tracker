@@ -5,7 +5,7 @@ build_exe_options = {
     "excludes": [
         "PySide6", "unittest", "sqlite3", "numpy", "matplotlib", "zstandard",
         "oead", "evfl", "keystone-engine", "PyYAML", "quick-tex", "Pillow",
-        "sys", "os"
+        "sys", "os", "time"
     ],
     "zip_include_packages": ["encodings", "tkinter"],
     "include_files": ["customize.txt", "README.md"],

@@ -3,7 +3,6 @@ from tkinter import *
 from tkinter.ttk import *
 import datetime
 from threading import *
-import time
 
 with open("customize.txt", "r") as f:
     customization = f.read().splitlines()
@@ -15,6 +14,8 @@ TEXT_COLOR = customization[2]
 class NoHitApplication:
     def __init__(self):
         self.started = False
+        self.timer_thread = None
+        self.stop = Event()
         self.root = Tk()
         self.root.title("No-Hit Timer")
         self.root.geometry("240x160")
@@ -39,13 +40,14 @@ class NoHitApplication:
             self.start_button.config(text="Stop")
             self.hits_count.set("Hits:  0")
             self.start_time = datetime.datetime.now()
-            t1 = Thread(target=self.runTimer)
-            t1.start()
+            self.timer_thread = Thread(target=self.runTimer)
+            self.timer_thread.start()
         else:
             self.start_button.config(text="Start")
+            self.timer_thread = None
 
     def runTimer(self):
-        while self.started:
+        while not self.stop.isSet():
             current_time = datetime.datetime.now()
             diff = current_time - self.start_time
             convert = datetime.timedelta(seconds=floor(diff.total_seconds()))
@@ -62,8 +64,7 @@ class NoHitApplication:
         self.hits_count.set(f"Hits:  {num_hits}")
 
     def close_app(self):
-        self.started = False # stop the thread from running
-        time.sleep(0.75) # give enough time for the thread to finish the job
+        self.stop.set()
         self.root.destroy()
 
 app = NoHitApplication()
