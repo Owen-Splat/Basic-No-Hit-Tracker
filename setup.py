@@ -8,7 +8,7 @@ build_exe_options = {
         "sys", "os"
     ],
     "zip_include_packages": ["encodings", "tkinter"],
-    "include_files": ["customize.txt", "README.txt"],
+    "include_files": ["customize.txt", "README.md"],
     "optimize": 2}
 
 base = None
